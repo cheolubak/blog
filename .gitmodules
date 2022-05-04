@@ -1,0 +1,3 @@
+[submodule "src/packages/components"]
+	path = src/packages/components
+	url = https://github.com/cheolubak/dabot-components.git
