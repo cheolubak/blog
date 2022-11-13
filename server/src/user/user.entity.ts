@@ -13,32 +13,32 @@ import { Comment } from '../post/comment.entity';
 @Entity('user')
 export class User {
   @PrimaryColumn('varchar', { length: 10, name: 'user_id' })
-  private userId: string;
+  readonly userId: string;
 
   @Column('varchar', { length: 100 })
-  private email: string;
+  readonly email: string;
 
   @Column('varchar', { length: 20 })
-  private nickname: string;
+  nickname: string;
 
   @Column('varchar', { length: 50 })
-  private profile: string;
+  profile: string;
 
   @Column({
     type: 'enum',
     enum: UserSocial,
   })
-  social: UserSocial;
+  readonly social: UserSocial;
 
   @CreateDateColumn({ type: 'datetime', name: 'created_at' })
-  private createdAt: Date;
+  readonly createdAt: Date;
 
   @UpdateDateColumn({ type: 'datetime', name: 'updated_at' })
-  private updatedAt: Date;
+  readonly updatedAt: Date;
 
-  @OneToMany((type) => Post, (post) => post.user)
+  @OneToMany(() => Post, (post) => post.user)
   posts: Post[];
 
-  @OneToMany((type) => Comment, (comment) => comment.user)
+  @OneToMany(() => Comment, (comment) => comment.user)
   comments: Comment[];
 }

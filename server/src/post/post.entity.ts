@@ -2,48 +2,52 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
-  JoinColumn,
-  OneToMany,
 } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Comment } from './comment.entity';
 
 @Entity('post')
 export class Post {
-  @PrimaryColumn('varchar', { length: 10 })
-  private post_id: string;
+  @PrimaryColumn('varchar', { length: 10, name: 'post_id' })
+  readonly postId: string;
 
   @Column('varchar', { length: 50 })
-  private title: string;
+  title: string;
 
   @Column('text')
-  private content: string;
+  content: string;
 
   @Column({ type: 'smallint', name: 'comment_count' })
-  private commentCount: number;
+  commentCount: number;
 
   @Column({ type: 'smallint', name: 'like_count' })
-  private likeCount: number;
+  likeCount: number;
 
   @Column('varchar', { length: 200, array: true })
-  private tags: string[];
+  tags: string[];
 
   @CreateDateColumn({ type: 'datetime', name: 'created_at' })
-  private createdAt: Date;
+  readonly createdAt: Date;
 
   @UpdateDateColumn({ type: 'datetime', name: 'updated_at' })
-  private updatedAt: Date;
+  readonly updatedAt: Date;
 
-  @ManyToOne((type) => User, (user) => user.posts, {
+  @ManyToOne(() => User, (user) => user.posts, {
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION',
   })
   @JoinColumn({ name: 'user_id' })
-  user: User;
+  readonly user: User;
 
-  @OneToMany((type) => Comment, (comment) => comment.post)
+  @OneToMany(() => Comment, (comment) => comment.post)
   comments: Comment[];
+
+  get id(): string {
+    return this.postId;
+  }
 }
