@@ -21,8 +21,8 @@ export class User {
   @Column('varchar', { length: 20 })
   nickname: string;
 
-  @Column('varchar', { length: 50 })
-  profile: string;
+  @Column('varchar', { length: 50, nullable: true })
+  profile?: string;
 
   @Column({
     type: 'enum',
@@ -41,4 +41,18 @@ export class User {
 
   @OneToMany(() => Comment, (comment) => comment.user)
   comments: Comment[];
+
+  constructor(
+    userId: string,
+    email: string,
+    nickname: string,
+    social: UserSocial,
+    profile?: string,
+  ) {
+    this.userId = userId;
+    this.email = email;
+    this.nickname = nickname;
+    this.profile = profile;
+    this.social = social;
+  }
 }

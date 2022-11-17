@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Comment } from './comment.entity';
+import { randomIdGenerator } from '../util/generator';
 
 @Entity('post')
 export class Post {
@@ -23,13 +24,13 @@ export class Post {
   content: string;
 
   @Column({ type: 'smallint', name: 'comment_count' })
-  commentCount: number;
+  commentCount: number = 0;
 
   @Column({ type: 'smallint', name: 'like_count' })
-  likeCount: number;
+  likeCount: number = 0;
 
-  @Column('varchar', { length: 200, array: true })
-  tags: string[];
+  @Column('varchar', { length: 200 })
+  tags: string;
 
   @CreateDateColumn({ type: 'datetime', name: 'created_at' })
   readonly createdAt: Date;
@@ -49,5 +50,13 @@ export class Post {
 
   get id(): string {
     return this.postId;
+  }
+
+  constructor(title: string, content: string, tags: string, user: User) {
+    this.postId = randomIdGenerator();
+    this.title = title;
+    this.content = content;
+    this.tags = tags;
+    this.user = user;
   }
 }
